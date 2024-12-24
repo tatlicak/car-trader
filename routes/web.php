@@ -122,3 +122,9 @@ Route::get('/sum/{a}/{b}', function (float $a, float $b) {
 
 
 Route::get('/car', [CarController::class, 'index'])->name('car.index');
+
+Route::controller(CarController::class)->group(function() {
+    Route::get('car', 'index')->name('car.index');
+    Route::get('/my-cars', 'createmyCars')->name('car.my-cars');
+    
+});
