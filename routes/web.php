@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CarController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -112,3 +113,12 @@ Route::name('admin')->group(function () {
 Route::fallback(function () {
     return "Fallback : 404 Not Found";
 });
+
+Route::get('/sum/{a}/{b}', function (float $a, float $b) {
+
+   echo "Sum of $a and $b is ".($a+$b);
+
+})->whereNumber(['a','b']);
+
+
+Route::get('/car', [CarController::class, 'index'])->name('car.index');
