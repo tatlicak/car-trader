@@ -29,7 +29,15 @@
 
 - Clears route cache
 
-MAKING CONTROLLER
+# MAKING CONTROLLER
 - Controller is a class which is associated to one or more routes and responsible for handling request of that routes
 
 ``` php artisan make:controller CarController```
+
+## Single Action Controller
+**Single Action Controllers** are controllers that are associated to a single route only.
+
+``` php artisan make:controller ShowCarController --invokable```
+or
+
+``` php artisan make:controller ShowCarController -i```

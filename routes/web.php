@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\ShowCarController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -121,10 +122,15 @@ Route::get('/sum/{a}/{b}', function (float $a, float $b) {
 })->whereNumber(['a','b']);
 
 
-Route::get('/car', [CarController::class, 'index'])->name('car.index');
+/* Route::get('/car', [CarController::class, 'index'])->name('car.index');
 
 Route::controller(CarController::class)->group(function() {
     Route::get('car', 'index')->name('car.index');
     Route::get('/my-cars', 'createmyCars')->name('car.my-cars');
     
-});
+}); */
+
+/* Route::get('/car', ShowCarController::class)->name('car.index'); */
+
+Route::get('/car/invokable', CarController::class)->name('car.invokable');
+
