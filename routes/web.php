@@ -104,6 +104,11 @@ Route::name('admin')->group(function () {
     Route::get('users', function () {
         // Matches The "/admin/users" URL
 
-        return "/admin/users";
+        return "/users";
     })->name('users');
+});
+
+//Fallback Route
+Route::fallback(function () {
+    return "Fallback : 404 Not Found";
 });
