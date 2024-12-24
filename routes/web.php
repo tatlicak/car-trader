@@ -55,17 +55,38 @@ Route::get('{lang}/products', function(string $lang) {
     })->whereIn("lang",["en","tr","ro"])->name('product-lang');
 
 // Route with parameters validated by a regular expression(regex)
-
+// In this case, the route will only be accessed if the parameter is lowercase
 Route::get('user/regex/{username}', function(string $username) {
 
     return "Works! $username";
 
 })->where('username','[a-z]+')->name('user-regex');
 
-
+// In this case, the route will only be accessed if the lang parameter is 2 character lowercase and the id parameter is a number with at least 4 digits
 Route::get('{lang}/product/regex/{id}', function(string $lang, string $id) {
 
     return "Works! $id in $lang";
 
 })->where(['lang'=>'[a-z]{2}','id'=>'\d{4,}'])->name('product-lang-regex');   
+
+
+// At least one character and accepts / like parameter
+Route::get('search/{search}', function(string $search) {
+
+    return "Works! $search";
+
+})->where('search','.+')->name('search');
+
+// define a route with name "profile"
+Route::get('/user/profile', function () {
+    // ...
+})->name('profile');
+
+//Named Routes Example with redirect
+Route::get("/current-user", function() {
+    // Generating Redirects...
+    return redirect()->route('profile');
+    // or
+    return to_route('profile');
+});
 
