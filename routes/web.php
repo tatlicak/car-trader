@@ -46,9 +46,26 @@ Route::get('{lang}/product/{id}', function(string $lang, string $id) {
     ->whereAlpha('lang')
     ->whereNumber('id')->name('product-lang');
 
+// In this case, the route will only be accessed if the lang parameter is only one of the values in the array
 
 Route::get('{lang}/products', function(string $lang) {
 
         return "Works! products in $lang";
     
     })->whereIn("lang",["en","tr","ro"])->name('product-lang');
+
+// Route with parameters validated by a regular expression(regex)
+
+Route::get('user/regex/{username}', function(string $username) {
+
+    return "Works! $username";
+
+})->where('username','[a-z]+')->name('user-regex');
+
+
+Route::get('{lang}/product/regex/{id}', function(string $lang, string $id) {
+
+    return "Works! $id in $lang";
+
+})->where(['lang'=>'[a-z]{2}','id'=>'\d{4,}'])->name('product-lang-regex');   
+
