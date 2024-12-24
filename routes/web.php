@@ -90,3 +90,20 @@ Route::get("/current-user", function() {
     return to_route('profile');
 });
 
+// Grouping Routes
+Route::prefix('admin')->group(function () {
+    Route::get('users', function () {
+        // Matches The "/admin/users" URL
+
+        return "/admin/users";
+    });
+});
+
+// Grouping Routes with name
+Route::name('admin')->group(function () {
+    Route::get('users', function () {
+        // Matches The "/admin/users" URL
+
+        return "/admin/users";
+    })->name('users');
+});
