@@ -3,20 +3,28 @@
 
 ## Artisan Command to view Existing Routes
 
-### php artisan route:list 
+``` php artisan route:list ```
 - Lists all routes 
 
-### php artisan route:list -v
+``` php artisan route:list -v ```
 - Lists routes with middleware
 
-### php artisan route:list --except-vendor
+``` php artisan route:list --except-vendor ```
 - Lists routes which are defined by us
 
-### php artisan route:list --only-vendor
+``` php artisan route:list --only-vendor ```
 - Lists routes which are defined by vendor
 
-### php artisan route:list --path=api
+``` php artisan route:list --path=api ```
 - Lists all routes which are part of api
 
-### php artisan route:list -v --except-vendor --path=admin
+``` php artisan route:list -v --except-vendor --path=admin ```
 - We can combine these flags
+
+``` php artisan route:cache ``` 
+
+- When you deploy your laravel project to production it is recommended
+
+``` php artisan route:clear ``` 
+
+- Clears route cache
