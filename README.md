@@ -199,4 +199,14 @@ Route::group(['prefix'=>'operations'], function() {
 });
 
 
+# Views 
+- Views are files, that are responsible for presentation logic in your Laravel Applications and are stored under resources/views folder
+- Blade is Laravel's templatinf engine that helps you to build HTML views efficiently. It allows mixing HTML with PHP using simple and clean syntax
 
+## Blade Core Features
+- - extension : *.blade.php
+- - Template Inheritance
+- - Directives 
+- - Components & Slots
+
+``` php artisan make:view index ```
