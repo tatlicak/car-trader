@@ -13,10 +13,3 @@ Route::get('/', [HomeController ::class, 'index'])->name('home');
 Route::get('/about', function () {
     return view('about');
 });
-
-
-Route::get('/hello/{name}/{surname}',[HelloController::class,'welcome'])->whereAlpha(['name','surname'])->name('hello.welcome');
-
-
-
-

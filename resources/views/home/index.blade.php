@@ -1,3 +1,9 @@
-<h1> Hello From Laravel 11 Tutorail </h1>
-<p> His mane was {{$name}} {{$surname}}</p>
-<p>Year : {{$year}}</p>
+@extends('layouts.app')
+
+@section('title', 'HomePage')
+
+
+@section('content')
+    <h1>Home Page</h1>
+    <p>Welcome to the home page</p>
+ @endsection   
