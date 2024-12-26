@@ -9,9 +9,13 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return View::make('home.index');
+        return view('home.index', [
+            'name' => 'John',
+            'surname' => 'Doe'
+        ]);
 
-        //Return the first view that exists
-        //return View::first(['index','home.index']);
+        // return view('home.index')
+        //              ->with('name', 'John')
+        //              ->with('surname', 'Doe'); 
     }
 }

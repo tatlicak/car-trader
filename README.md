@@ -210,3 +210,9 @@ Route::group(['prefix'=>'operations'], function() {
 - - Components & Slots
 
 ``` php artisan make:view index ```
+
+## Using View Facades
+return View::make('home.index');
+
+        //Return the first view that exists
+        //return View::first(['index','home.index']);
