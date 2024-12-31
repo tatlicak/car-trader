@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class SignupController extends Controller
 {
-   public function create()
-   {
-       return view('auth.signup');
-   }
+    public function create()
+    {
+        return view('auth.signup');
+    }
 }
