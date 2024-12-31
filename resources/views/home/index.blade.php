@@ -453,14 +453,7 @@
     </section>
     <!--/ New Cars -->
   </main>
-  <x-slot:footerLinks>
-    
-    <a href="#">Link 3</a>
-    <a href="#">Link 4</a>
-  
-  </x-slot:footerLinks>
-  
-
+ 
 </x-app-layout>
 
 
