@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class CarFeature extends Model
 {
-    //
+    public $timestamps = false;
 }
