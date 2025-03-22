@@ -84,7 +84,7 @@ class HomeController extends Controller
         );
 
  */
-        $carData = [
+        /* $carData = [
             'maker_id' =>  1,
             'model_id' => 1,
             'year' => 2002,
@@ -103,7 +103,12 @@ class HomeController extends Controller
         Car::updateOrCreate(
             ['vin' => 'VIN159852369', 'price' => 250_000],
             $carData
-        );
+        ); */
+
+
+        Car::where('published_at', '=', null)
+  ->where('user_id', 1)
+  ->update(['published_at' => now()]);
         return view('home.index');
     }
 }
