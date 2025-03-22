@@ -22,7 +22,7 @@ class HomeController extends Controller
         //find specific car
         $car = Car::find(2);
         $cars = Car::orderBy('published_at','desc')->get();*/
-
+/* 
         $car = new Car();
 
         $car->maker_id =  1;
@@ -39,7 +39,41 @@ class HomeController extends Controller
         $car->phone = "5556667788";
         $car->description = 'Ullamco velit ullamco adipisicing sit fugiat esse aliquip ut Lorem dolore irure anim. Occaecat pariatur commodo incididunt labore voluptate culpa. Amet exercitation occaecat quis adipisicing officia ut pariatur deserunt labore voluptate cupidatat in exercitation tempor. Duis id ea quis velit laborum pariatur et aliquip ut dolor. Laboris minim commodo laborum est ut nisi. Exercitation ea deserunt culpa qui occaecat id voluptate minim. Lorem elit ex deserunt magna occaecat voluptate minim consequat consequat in.';
         $car->published_at = Carbon::now();
-        $car->save();
+        $car->save(); */
+
+        $carData = [
+                'maker_id' =>  1,
+                'model_id' => 1,
+                'year' => 2002,
+                'price' => 150_000,
+                'vin' => 159852369,
+                'mileage' => 250_133,
+                'car_type_id' => 1,
+                'fuel_type_id' => 1,
+                'user_id' => 1,
+                'city_id' => 1,
+                'address' => 'Est nulla ad magna esse ad.',
+                'phone' => "5556667788",
+                'description' => 'Ullamco velit ullamco adipisicing sit fugiat esse aliquip ut Lorem dolore irure anim. Occaecat pariatur commodo incididunt labore voluptate culpa. Amet exercitation occaecat quis adipisicing officia ut pariatur deserunt labore voluptate cupidatat in exercitation tempor. Duis id ea quis velit laborum pariatur et aliquip ut dolor. Laboris minim commodo laborum est ut nisi. Exercitation ea deserunt culpa qui occaecat id voluptate minim. Lorem elit ex deserunt magna occaecat voluptate minim consequat consequat in.',
+                'published_at' => Carbon::now(),
+        ];
+
+        // Approach -1
+
+        $car2 = new Car();
+        $car2->fill($carData);
+        $car2->save();
+
+        // Approach -2
+        $car3 = new Car($carData);
+        $car3->save();
+
+        //Approach -3
+
+        $car4 = Car::create($carData);
+
+
+
         return view('home.index');
     }
 }
