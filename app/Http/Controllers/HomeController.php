@@ -2,113 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Car;
 use Carbon\Carbon;
+use App\Models\Car;
+use App\Models\User;
+use App\Models\CarImage;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        /* //Select All CArs
-        $cars = Car::get(); 
+        // Select the car
+        $car = Car::find(1);
 
-       // Select published Cars
-        $cars = Car::where('published_at','!=', null)->get();
+        // Create and attach an image to $car
+        $image = new CarImage(['image_path' => 'your_path', 'position' => 2]);
+        $car->images()->save($image);
 
-        // Select the first car
-        $cars = Car::where('published_at','!=',null)->first(); 
+        // the same as above
+        $car->images()->create(['image_path' => 'your_path', 'position' => 2]);
 
-        //find specific car
-        $car = Car::find(2);
-        $cars = Car::orderBy('published_at','desc')->get();*/
-        /* 
-        $car = new Car();
+        // Attach multiple images to $car
+        $car->images()->saveMany([
+            new CarImage(['image_path' => 'your_path2', 'position' => 3]),
+            new CarImage(['image_path' => 'your_path3', 'position' => 4]),
+        ]);
 
-        $car->maker_id =  1;
-        $car->model_id = 1;
-        $car->year = 2002;
-        $car->price = 150_000;
-        $car->vin = 159852369;
-        $car->mileage = 250_133;
-        $car->car_type_id = 1;
-        $car->fuel_type_id = 1;
-        $car->user_id = 1;
-        $car->city_id = 1;
-        $car->address = 'Est nulla ad magna esse ad.';
-        $car->phone = "5556667788";
-        $car->description = 'Ullamco velit ullamco adipisicing sit fugiat esse aliquip ut Lorem dolore irure anim. Occaecat pariatur commodo incididunt labore voluptate culpa. Amet exercitation occaecat quis adipisicing officia ut pariatur deserunt labore voluptate cupidatat in exercitation tempor. Duis id ea quis velit laborum pariatur et aliquip ut dolor. Laboris minim commodo laborum est ut nisi. Exercitation ea deserunt culpa qui occaecat id voluptate minim. Lorem elit ex deserunt magna occaecat voluptate minim consequat consequat in.';
-        $car->published_at = Carbon::now();
-        $car->save(); */
-        /* 
-        $carData = [
-                'maker_id' =>  1,
-                'model_id' => 1,
-                'year' => 2002,
-                'price' => 150_000,
-                'vin' => 159852369,
-                'mileage' => 250_133,
-                'car_type_id' => 1,
-                'fuel_type_id' => 1,
-                'user_id' => 1,
-                'city_id' => 1,
-                'address' => 'Est nulla ad magna esse ad.',
-                'phone' => "5556667788",
-                'description' => 'Ullamco velit ullamco adipisicing sit fugiat esse aliquip ut Lorem dolore irure anim. Occaecat pariatur commodo incididunt labore voluptate culpa. Amet exercitation occaecat quis adipisicing officia ut pariatur deserunt labore voluptate cupidatat in exercitation tempor. Duis id ea quis velit laborum pariatur et aliquip ut dolor. Laboris minim commodo laborum est ut nisi. Exercitation ea deserunt culpa qui occaecat id voluptate minim. Lorem elit ex deserunt magna occaecat voluptate minim consequat consequat in.',
-                'published_at' => Carbon::now(),
-        ];
+        // the same as above
+        $car->images()->createMany([
+            ['image_path' => 'your_path2', 'position' => 3],
+            ['image_path' => 'your_path3', 'position' => 4],
+        ]);
 
-        // Approach -1
+        $car = Car::find(1);
 
-        $car2 = new Car();
-        $car2->fill($carData);
-        $car2->save();
+// Select all users who added the $car in favourites
+dd($car->favouredUsers);
 
-        // Approach -2
-        $car3 = new Car($carData);
-        $car3->save();
+$user = User::find(1);
 
-        //Approach -3
+// Select all cars $users added into favourites
+dd($user->favouriteCars);
 
-        $car4 = Car::create($carData); */
+$user = User::find(1);
 
-        /* $car = Car::find(1);
+// INSERT
+// Add cars with IDs 1, 2, and 3 into favourites
+$user->favouriteCars()->attach([1, 2, 3], ['column1' => 'value1']);
 
-        $car->price = 1000;
+// Add cars with IDs 1, 2, and 3 into favourites, but delete all others
+$user->favouriteCars()->sync([1, 2, 3]);
 
-        $car->save(); */
+// If you want to provide pivot table additional values
+$user->favouriteCars()->syncWithPivotValues([1, 2, 3], ['column1' => 'value1']);
 
-        /*  Car::updateOrCreate(
-            ['vin' => '159852369', 'price'=>150_000],
-            ['price'=> 200_000]
-        );
+// DELETE
+// Delete cars from favourites with IDS: 1, 2, 3
+$user->favouriteCars()->detach([1, 2, 3]);
 
- */
-        /* $carData = [
-            'maker_id' =>  1,
-            'model_id' => 1,
-            'year' => 2002,
-            'price' => 250_000,
-            'vin' => 'VIN159852369',
-            'mileage' => 250_133,
-            'car_type_id' => 1,
-            'fuel_type_id' => 1,
-            'user_id' => 1,
-            'city_id' => 1,
-            'address' => 'Est nulla ad magna esse ad.',
-            'phone' => "5556667788",
-            'description' => 'Ullamco velit ullamco adipisicing sit fugiat esse aliquip ut Lorem dolore irure anim. Occaecat pariatur commodo incididunt labore voluptate culpa. Amet exercitation occaecat quis adipisicing officia ut pariatur deserunt labore voluptate cupidatat in exercitation tempor. Duis id ea quis velit laborum pariatur et aliquip ut dolor. Laboris minim commodo laborum est ut nisi. Exercitation ea deserunt culpa qui occaecat id voluptate minim. Lorem elit ex deserunt magna occaecat voluptate minim consequat consequat in.',
-            'published_at' => Carbon::now(),
-        ];
-        Car::updateOrCreate(
-            ['vin' => 'VIN159852369', 'price' => 250_000],
-            $carData
-        ); */
+// Delete all cars from favourites
+$user->favouriteCars()->detach();
 
-
-        Car::where('published_at', '=', null)
-  ->where('user_id', 1)
-  ->update(['published_at' => now()]);
         return view('home.index');
     }
 }
