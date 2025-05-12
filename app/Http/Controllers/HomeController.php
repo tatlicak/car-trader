@@ -63,6 +63,15 @@ $user->favouriteCars()->detach([1, 2, 3]);
 // Delete all cars from favourites
 $user->favouriteCars()->detach();
 
+//Factory Relationships - Many to Many
+User::factory()
+    ->has(Car::factory()->count(5), 'favouriteCars')
+    ->create();
+
+User::factory()
+    ->hasAttached(Car::factory()->count(5), ['column1' => 'value1'],'favouriteCars')
+    ->create();    
+
         return view('home.index');
     }
 }
