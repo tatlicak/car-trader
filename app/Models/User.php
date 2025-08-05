@@ -3,11 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -50,20 +50,10 @@ class User extends Authenticatable
         ];
     }
 
-    /*     public function favouriteCars(): BelongsToMany
-{
-    return $this->belongsToMany(Car::class, 'favourite_cars', 'user_id', 'car_id');
-} */
-
-
-    /*  If your pivot table has created_at and updated_at columns and you want them to be automatically managed by Eloquent. */
-
     public function favouriteCars(): BelongsToMany
     {
-        return $this->belongsToMany(Car::class, 'favourite_cars')->withTimestamps();
+        return $this->belongsToMany(Car::class, 'favourite_cars');
     }
-
-
 
     public function cars(): HasMany
     {

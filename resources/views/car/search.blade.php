@@ -62,7 +62,7 @@
                                 <div class="find-a-car-inputs">
                                     <div class="form-group">
                                         <label class="mb-medium">Maker</label>
-                                        <select id="makerSelect" name="maker_id">
+                                        <select id="makerSelect" name="maker">
                                             <option value="">Maker</option>
                                             <option value="4">Chevrolet</option>
                                             <option value="2">Ford</option>
@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="mb-medium">Model</label>
-                                        <select id="modelSelect" name="model_id">
+                                        <select id="modelSelect" name="model">
                                             <option value="" style="display: block">Model</option>
                                             <option
                                                 value="50"
@@ -478,7 +478,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="mb-medium">Type</label>
-                                        <select name="car_type_id">
+                                        <select name="type">
                                             <option value="">Type</option>
                                             <option value="2">Hatchback</option>
                                             <option value="6">Jeep</option>
@@ -542,7 +542,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="mb-medium">State</label>
-                                        <select id="stateSelect" name="state_id">
+                                        <select id="stateSelect" name="state">
                                             <option value="">State/Region</option>
                                             <option value="4">California</option>
                                             <option value="2">Kansas</option>
@@ -552,7 +552,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="mb-medium">City</label>
-                                        <select id="citySelect" name="city_id">
+                                        <select id="citySelect" name="city">
                                             <option value="" style="display: block">City</option>
                                             <option value="3" data-parent="1" style="display: none">
                                                 Carmelstad
@@ -697,7 +697,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="mb-medium">Fuel Type</label>
-                                        <select name="fuel_type_id">
+                                        <select name="fuel_type">
                                             <option value="">Fuel Type</option>
                                             <option value="2">Diesel</option>
                                             <option value="3">Electric</option>

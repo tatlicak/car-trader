@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Maker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +18,7 @@ class MakerFactory extends Factory
     public function definition(): array
     {
         return [
-
-            'name' => fake()->unique()->company(),
-            //'name' => $this->faker->unique()->company(),
+            'name' => fake()->word()
         ];
     }
 }

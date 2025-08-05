@@ -17,7 +17,6 @@ class CarFeaturesFactory extends Factory
     public function definition(): array
     {
         return [
-            
             'abs' => fake()->boolean(),
             'air_conditioning' => fake()->boolean(),
             'power_windows' => fake()->boolean(),
@@ -30,7 +29,6 @@ class CarFeaturesFactory extends Factory
             'climate_control' => fake()->boolean(),
             'rear_parking_sensors' => fake()->boolean(),
             'leather_seats' => fake()->boolean(),
-            
         ];
     }
 }

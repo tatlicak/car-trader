@@ -8,12 +8,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Car extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'maker_id',
+        'model_id',
+        'year',
+        'price',
+        'vin',
+        'mileage',
+        'car_type_id',
+        'fuel_type_id',
+        'user_id',
+        'city_id',
+        'address',
+        'phone',
+        'description',
+        'published_at',
+    ];
 
     public function carType(): BelongsTo
     {
@@ -47,17 +63,18 @@ class Car extends Model
 
     public function features(): HasOne
     {
-        return $this->hasOne(CarFeatures::class);
+        return $this->hasOne(CarFeatures::class, 'car_id');
+    }
+
+    public function primaryImage(): HasOne
+    {
+        return $this->hasOne(CarImage::class)
+            ->oldestOfMany('position');
     }
 
     public function images(): HasMany
     {
         return $this->hasMany(CarImage::class);
-    }
-
-    public function primaryImage(): HasOne
-    {
-        return $this->hasOne(CarImage::class)->orderBy('position')->limit(1);
     }
 
     public function favouredUsers(): BelongsToMany

@@ -84,6 +84,18 @@ document.addEventListener("DOMContentLoaded", function () {
       a.classList.add("car-form-image-preview");
       a.innerHTML = `
         <img src="${url}" />
+        <span class="delete-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="width: 16px"
+          >
+            <path
+              d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"
+            />
+          </svg>
+        </span>
       `;
       return a;
     }
@@ -107,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const prevButton = document.getElementById('prevButton');
     const nextButton = document.getElementById('nextButton');
 
-
+    
     let currentIndex = 0;
 
     // Initialize active thumbnail class
@@ -169,57 +181,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  const initCascadingDropdown = (parentSelector, childSelector) => {
-    const parentDropdown = document.querySelector(parentSelector);
-    const childDropdown = document.querySelector(childSelector);
-
-    if (!parentDropdown || !childDropdown) return;
-
-    hideModelOptions(parentDropdown.value)
-
-    parentDropdown.addEventListener('change', (ev) => {
-      hideModelOptions(ev.target.value)
-      childDropdown.value = ''
-    });
-
-    function hideModelOptions(parentValue) {
-      const models = childDropdown.querySelectorAll('option');
-      models.forEach(model => {
-        if (model.dataset.parent === parentValue || model.value === '') {
-          model.style.display = 'block';
-        } else {
-          model.style.display = 'none';
-        }
-      });
-    }
-  }
-
-  const initSortingDropdown = () => {
-    const sortingDropdown = document.querySelector('.sort-dropdown');
-    if (!sortingDropdown) return;
-
-    // Init sorting dropdown with the current value
-    const url = new URL(window.location.href);
-    const sortValue = url.searchParams.get('sort');
-    if (sortValue) {
-      sortingDropdown.value = sortValue;
-    }
-
-    sortingDropdown.addEventListener('change', (ev) => {
-      const url = new URL(window.location.href);
-      url.searchParams.set('sort', ev.target.value);
-      window.location.href = url.toString();
-    });
-  }
-
   initSlider();
   initImagePicker();
   initMobileNavbar();
   imageCarousel();
-  initMobileFilters();
-  initCascadingDropdown('#makerSelect', '#modelSelect');
-  initCascadingDropdown('#stateSelect', '#citySelect');
-  initSortingDropdown()
+  initMobileFilters()
 
   ScrollReveal().reveal(".hero-slide.active .hero-slider-title", {
     delay: 200,
