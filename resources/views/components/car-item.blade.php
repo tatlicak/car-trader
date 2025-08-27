@@ -1,5 +1,6 @@
 @props(['car', 'isInWatchList'=>false])
 <div class="car-item card">
+
     <a href="{{ route('car.show', $car) }}">
         <img
             src="{{ $car->primaryImage->image_path}}"
