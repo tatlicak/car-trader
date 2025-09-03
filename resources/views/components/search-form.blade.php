@@ -8,49 +8,49 @@
         >
             <div class="find-a-car-inputs">
                 <div>
-                    <select>
-                        <option value="">Make</option>
-                        <option value="bmw">BMW</option>
-                        <option value="lexus">Lexus</option>
-                        <option value="mercedes">Mercedes</option>
-                    </select>
+                    <x-select-maker :value="request('maker_id')"/>
                 </div>
                 <div>
-                    <select>
-                        <option value="">Model</option>
-                    </select>
+                   <x-select-model :value="request('model_id')"/>
                 </div>
                 <div>
-                    <select>
-                        <option value="">State/Region</option>
-                    </select>
+                    <x-select-state :value="request('state_id')"/>
                 </div>
                 <div>
-                    <select>
-                        <option value="">City</option>
-                    </select>
+                   <x-select-city :value="request('city_id')"/>
                 </div>
                 <div>
-                    <select>
-                        <option value="">Type</option>
-                    </select>
+                   <x-select-car-type :value="request('car_type_id')"/>
                 </div>
                 <div>
-                    <input type="number" placeholder="Year From" />
+                    <input type="number" placeholder="Year From" name="year_from"/>
                 </div>
                 <div>
-                    <input type="number" placeholder="Year To" />
+                    <input 
+                    type="number" 
+                    placeholder="Year To" 
+                    name="year_to"
+                    value="{{ request('year_to')}}"
+                    />
                 </div>
                 <div>
-                    <input type="number" placeholder="Price From" />
+                    <input
+                        type="number"
+                        placeholder="Price From"
+                        name="price_from"
+                        value="{{ request('price_from')}}"
+                    />
                 </div>
                 <div>
-                    <input type="number" placeholder="Price To" />
+                    <input 
+                    type="number" 
+                    placeholder="Price To" 
+                    name="price_to"
+                    value=" {{ request('price_to')}} "
+                    />
                 </div>
                 <div>
-                    <select>
-                        <option value="">Fuel Type</option>
-                    </select>
+                    <x-select-fuel-type :value="request('fuel_type_id')/>
                 </div>
             </div>
             <div>
