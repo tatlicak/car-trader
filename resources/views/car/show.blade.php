@@ -9,7 +9,7 @@
                     <div class="car-images-carousel">
                         <div class="car-image-wrapper">
                             <img
-                                src="{{$car->primaryImage->image_path}}"
+                                src="{{$car->primaryImage?->getUrl() ? : '/img/no_image.jpg'}}"
                                 alt=""
                                 class="car-active-image"
                                 id="activeImage"
@@ -17,7 +17,7 @@
                         </div>
                         <div class="car-image-thumbnails">
                             @foreach ($car->images as $image)
-                                <img src="{{$image->image_path}}" alt="" />
+                                <img src="{{$image->getUrl()}}" alt="" />
                             @endforeach
                             
                             

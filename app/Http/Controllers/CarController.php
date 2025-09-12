@@ -34,7 +34,26 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $data = $request->all();
+
+       $data['user_id']=1;
+
+       $featuresData = $data['features'] ?? [];
+
+       $images = $request->file('images') ? : [];
+
+       $car = Car::create($data);
+
+       $car->features()->create($featuresData);
+
+
+       foreach ($images as $i => $image) {
+
+            $path = $image->store('public/images');
+            $car->images()->create(['image_path' => $path, 'position' => $i+1]);
+       }
+
+       return redirect()->route('car.index');
     }
 
     /**
@@ -42,8 +61,12 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-       
-        return view('car.show');
+       if(!$car->published_at) {
+
+            abort('404');
+
+       } 
+        return view('car.show', ['car' => $car]);
     }
 
     /**
