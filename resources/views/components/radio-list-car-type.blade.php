@@ -5,7 +5,8 @@
 
             <label class="inline-radio">
 
-                <input type="radio" name="car_type_id" value="{{ $type->id }}" />
+                <input type="radio" name="car_type_id" value="{{ $type->id }}"
+                @checked($attributes->get('value') == $type->id)/>
                 {{ $type->name }}
 
             </label>

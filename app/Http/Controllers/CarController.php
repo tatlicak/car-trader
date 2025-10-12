@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Models\User;
+use App\Rules\Phone;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\File;
 
 class CarController extends Controller
 {
@@ -15,10 +17,10 @@ class CarController extends Controller
     {
         $cars = User::find(1)
             ->cars()
-            ->with(['primaryImage','maker','model'])
+            ->with(['primaryImage', 'maker', 'model'])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
-        return view('car.index',['cars' => $cars]);
+        return view('car.index', ['cars' => $cars]);
     }
 
     /**
@@ -34,26 +36,48 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-       $data = $request->all();
+    
+        $data = $request->validate([
+            'maker_id' => 'required',
+            'model_id' => 'required',
+            'year' => 'required|integer|min:1970|max:' . date('Y'),
+            'phone'=>'required|string|min:10',
+            'price' => 'required|integer|min:0',
+            'vin' => 'required|string|max:17',
+            'mileage' => 'required|integer|min:0',
+            'car_type_id' => 'required|exists:car_types,id',
+            'fuel_type_id' => 'required|exists:fuel_types,id',
+            'city_id' => 'required|exists:cities,id',
+            'address' => 'required|string',
+            'description' => 'nullable|string',
+            'features'=>'array',
+            'features.*'=>'string',
+            //'phone'=> new Phone(),
+            'published_at' => 'nullable|date',
+            'images' => 'array',
+            //'images.*'=>'image|mimes:jpeg,jpg,png,webp,gif|max:2408',
+            'images.*'=> File::image()->max(2048)
+        ]);
 
-       $data['user_id']=1;
 
-       $featuresData = $data['features'] ?? [];
+        $data['user_id'] = 1;
 
-       $images = $request->file('images') ? : [];
+        $featuresData = $data['features'] ?? [];
 
-       $car = Car::create($data);
+        $images = $request->file('images') ?: [];
 
-       $car->features()->create($featuresData);
+        $car = Car::create($data);
+
+        $car->features()->create($featuresData);
 
 
-       foreach ($images as $i => $image) {
+        foreach ($images as $i => $image) {
 
             $path = $image->store('public/images');
-            $car->images()->create(['image_path' => $path, 'position' => $i+1]);
-       }
+            $car->images()->create(['image_path' => $path, 'position' => $i + 1]);
+        }
 
-       return redirect()->route('car.index');
+        return redirect()->route('car.index');
     }
 
     /**
@@ -61,11 +85,10 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-       if(!$car->published_at) {
+        if (!$car->published_at) {
 
             abort('404');
-
-       } 
+        }
         return view('car.show', ['car' => $car]);
     }
 
@@ -107,108 +130,96 @@ class CarController extends Controller
         $priceTo = $request->input('price_to');
         $fuelType = $request->input('fuel_type_id');
         $mileage = $request->input('mileage');
-        $sort = $request->input('sort','published_at');
+        $sort = $request->input('sort', 'published_at');
 
-         $query= Car::with(['city','primaryImage','maker','model','fuelType','carType'])
-                ->where('published_at','<',now());
+        $query = Car::with(['city', 'primaryImage', 'maker', 'model', 'fuelType', 'carType'])
+            ->where('published_at', '<', now());
 
-        if($maker) {
+        if ($maker) {
 
-            $query->where('maker_id', $maker);  
-
+            $query->where('maker_id', $maker);
         }
 
-        if($model) {
+        if ($model) {
 
-            $query->where('model_id', $model);  
-
+            $query->where('model_id', $model);
         }
 
-        if($state) {
+        if ($state) {
 
-            $query->whereHas('city', function($q) use ($state) {
+            $query->whereHas('city', function ($q) use ($state) {
                 $q->where('state_id', $state);
-            }); 
-            
+            });
+
             // $query->join('cities', 'cars.city_id', '=', 'cities.id')
             //       ->where('cities.state_id', $state);
 
         }
 
-        if($city) {
+        if ($city) {
 
-            $query->where('city_id', $city);  
-
+            $query->where('city_id', $city);
         }
 
-        if($carType) {
+        if ($carType) {
 
-            $query->where('car_type_id', $carType);  
-
+            $query->where('car_type_id', $carType);
         }
 
-        if($yearFrom) {
+        if ($yearFrom) {
 
-            $query->where('year', '>=', $yearFrom);  
-
+            $query->where('year', '>=', $yearFrom);
         }
 
-        if($yearTo) {
+        if ($yearTo) {
 
-            $query->where('year', '<=', $yearTo);  
-
+            $query->where('year', '<=', $yearTo);
         }
 
-        if($priceFrom) {
+        if ($priceFrom) {
 
-            $query->where('price', '>=', $priceFrom);  
-
+            $query->where('price', '>=', $priceFrom);
         }
 
-        if($priceTo) {
+        if ($priceTo) {
 
-            $query->where('price', '<=', $priceTo);  
-
-        }   
-
-        if($fuelType) {
-
-            $query->where('fuel_type_id', $fuelType);  
-
-        }  
-
-        if($mileage) {
-
-            $query->where('mileage', '<=', $mileage);  
-
+            $query->where('price', '<=', $priceTo);
         }
 
-        if(str_starts_with($sort,'-')) {
+        if ($fuelType) {
 
-            $sort = substr($sort,1);
-
-            $query->orderBy($sort,'desc');
+            $query->where('fuel_type_id', $fuelType);
         }
 
-        else {
+        if ($mileage) {
+
+            $query->where('mileage', '<=', $mileage);
+        }
+
+        if (str_starts_with($sort, '-')) {
+
+            $sort = substr($sort, 1);
+
+            $query->orderBy($sort, 'desc');
+        } else {
 
             $query->orderBy($sort);
         }
-        
-       
 
-       $cars = $query->paginate(5)->withQueryString();
-        
-        return view('car.search',['cars'=>$cars]);
+
+
+        $cars = $query->paginate(5)->withQueryString();
+
+        return view('car.search', ['cars' => $cars]);
     }
 
     public function watchlist()
     {
         $cars = User::find(4)
-                    ->favouriteCars()
-                    ->with(['city','primaryImage','maker','model','fuelType','carType'])
-                    ->paginate(15);
-            
+            ->favouriteCars()
+            ->with(['city', 'primaryImage', 'maker', 'model', 'fuelType', 'carType'])
+            ->paginate(15);
+
         return view('car.watchlist', ['cars' => $cars]);
     }
 }
