@@ -9,7 +9,6 @@
                 class="card add-new-car-form"
             >
             @csrf
-            @dump($errors)
                 <div class="form-content">
                     <div class="form-details">
                         <div class="row">
@@ -112,6 +111,12 @@
                         </div>
                     </div>
                     <div class="form-images">
+                        @foreach ($errors->get('images.*') as $imageErrors)
+                            @foreach ($imageErrors as $error)
+                                <div class="error-message mb-small">{{ $error }}</div>
+                            @endforeach
+                            
+                        @endforeach
                         <div class="form-image-upload">
                             <div class="upload-placeholder">
                                 <svg
@@ -129,7 +134,7 @@
                                     />
                                 </svg>
                             </div>
-                            <input id="carFormImageUpload" type="file" name="images[]" multiple />
+                            <input id="carFormImageUpload" type="file" name="images[]" multiple/>
                         </div>
                         <div id="imagePreviews" class="car-form-images"></div>
                     </div>

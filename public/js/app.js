@@ -55,16 +55,37 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!fileInput) {
       return;
     }
-    fileInput.onchange = (ev) => {
+    fileInput.addEventListener("change", (ev) => {
+      console.log("File input changed");
       imagePreview.innerHTML = "";
-      const files = ev.target.files;
-      for (let file of files) {
-        readFile(file).then((url) => {
-          const img = createImage(url);
-          imagePreview.append(img);
-        });
+      const files = Array.from(ev.target.files);
+      console.log(`Selected ${files.length} file(s)`);
+      
+      if (files.length === 0) {
+        console.log("No files selected");
+        return;
       }
-    };
+
+      files.forEach((file, index) => {
+        console.log(`Processing file ${index + 1}: ${file.name} (${file.type}, ${file.size} bytes)`);
+        
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          console.error(`File ${file.name} is not an image`);
+          return;
+        }
+
+        readFile(file)
+          .then((url) => {
+            console.log(`File ${file.name} read successfully`);
+            const img = createImage(url, file.name);
+            imagePreview.appendChild(img);
+          })
+          .catch((error) => {
+            console.error(`Error reading file ${file.name}:`, error);
+          });
+      });
+    });
 
     function readFile(file) {
       return new Promise((resolve, reject) => {
@@ -79,11 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    function createImage(url) {
+    function createImage(url, filename) {
       const a = document.createElement("a");
       a.classList.add("car-form-image-preview");
+      a.setAttribute("title", filename);
       a.innerHTML = `
-        <img src="${url}" />
+        <img src="${url}" alt="${filename}" />
       `;
       return a;
     }
