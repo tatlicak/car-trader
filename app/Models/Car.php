@@ -75,7 +75,7 @@ class Car extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(CarImage::class);
+        return $this->hasMany(CarImage::class)->orderBy('position');
     }
 
     public function favouredUsers(): BelongsToMany
@@ -86,6 +86,12 @@ class Car extends Model
     public function getCreateDate() {
 
         return (new Carbon($this->created_at))->format('d-m-Y');
+
+    }
+
+    public function getTitle() {
+
+        return $this->year.'-'.$this->maker->name . ' ' . $this->model->name;
 
     }
 }

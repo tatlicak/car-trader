@@ -24,7 +24,7 @@ class StoreCarRequest extends FormRequest
     {
         return [
            'maker_id' => 'required|exists:makers,id',
-            'model_id' => 'required|exits:models,id',
+            'model_id' => 'required|exists:models,id',
             'year' => 'required|integer|min:1970|max:' . date('Y'),
             'phone'=>'required|string|min:10',
             'price' => 'required|integer|min:0',
@@ -32,6 +32,7 @@ class StoreCarRequest extends FormRequest
             'mileage' => 'required|integer|min:0',
             'car_type_id' => 'required|exists:car_types,id',
             'fuel_type_id' => 'required|exists:fuel_types,id',
+            'state_id' => 'required|exists:states,id',
             'city_id' => 'required|exists:cities,id',
             'address' => 'required|string',
             'description' => 'nullable|string',

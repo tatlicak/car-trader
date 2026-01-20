@@ -34,7 +34,7 @@
                                             <img src="{{ $car->primaryImage?->getUrl() ? : '/img/no_image.jpg' }}" alt=""
                                                 class="my-cars-img-thumbnail" />
                                         </td>
-                                        <td>{{ $car->year }} - {{ $car->maker->name }} {{ $car->model->name }}</td>
+                                        <td> {{ $car->getTitle()}}</td>
                                         <td>{{ $car->getCreateDate() }}</td>
                                         <td>{{ $car->published_at ? 'Yes' : 'No' }}</td>
                                         <td class="">
@@ -48,7 +48,7 @@
 
                                                 edit
                                             </a>
-                                            <a href="car_images.html" class="btn btn-edit inline-flex items-center">
+                                            <a href="{{ route('car.images',$car)}}" class="btn btn-edit inline-flex items-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                     style="width: 12px; margin-right: 5px">
@@ -57,7 +57,11 @@
                                                 </svg>
                                                 images
                                             </a>
-                                            <button class="btn btn-delete inline-flex items-center">
+                                            <form action="{{ route('car.destroy', $car)}}"
+                                                                            method="POST" class="inline-flex">
+                                                  @csrf
+                                                  @method('DELETE')
+                                            <button onclick="return confirm('Are you sure you wanna delete this car?') " class="btn btn-delete inline-flex items-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                     style="width: 12px; margin-right: 5px">
@@ -67,6 +71,9 @@
 
                                                 delete
                                             </button>
+
+                                            </form>
+                                            
                                         </td>
                                     </tr>
                                 @empty
